@@ -18,6 +18,7 @@ import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {View} from 'react-native';
 import PanelBottom from './../PanelBottom/PanelBottom';
 import FilterMap from './utils/FilterMap/FilterMap';
+import {GlobalContext} from './../../context/GlobalContext';
 
 const mapStyle = [
   {
@@ -75,7 +76,7 @@ const styles = {
   },
 };
 
-export default class MainMapScreen extends Component {
+class MainMapScreen extends Component {
   constructor(props) {
     super(props);
   }
@@ -90,11 +91,23 @@ export default class MainMapScreen extends Component {
             longitude: 21.01178,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
-          }}
-        />
+          }}>
+          {this.context &&
+            this.context.points &&
+            this.context.points.length > 0 &&
+            this.context.points.map((point, i) => {
+              return (
+                <Marker
+                  coordinate={{latitude: point.lat, longitude: point.lang}}
+                />
+              );
+            })}
+        </MapView>
         <FilterMap />
         <PanelBottom navigation={this.props.navigation} />
       </Container>
     );
   }
 }
+MainMapScreen.contextType = GlobalContext;
+export default MainMapScreen;

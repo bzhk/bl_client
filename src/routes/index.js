@@ -5,6 +5,7 @@ import Welcome from './../components/HomeScreen/HomeScreen';
 import LoginScreen from './../components/LoginScreen/LoginScreen';
 import MainMapScreen from './../components/MainMapScreen/MainMapScreen';
 import CouponScreen from './../components/CouponScreen/CouponScreen';
+import CouponDetailsScreen from './../components/CouponDetailsScreen/CouponDetailsScreen';
 import {fadeIn} from 'react-navigation-transitions';
 import {GlobalContext} from './../context/GlobalContext';
 import {Container} from 'native-base';
@@ -41,6 +42,13 @@ const MainStack = createStackNavigator(
         gesturesEnabled: false,
       },
     },
+    CouponDetailsScreen: {
+      screen: CouponScreen,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
+    },
   },
   {
     initialRouteName: 'Welcome',
@@ -56,9 +64,11 @@ export default class App extends Component {
     super(props);
     this.state = {
       API_URL: 'http://bzhk09.usermd.net',
+      token: 'hdOHFD743d^f#gdfasf$',
       activeBottomItemName: 'MainMapScreen',
       mapTagList: [],
       showMapTags: false,
+      points: [],
     };
   }
 
@@ -71,6 +81,7 @@ export default class App extends Component {
   };
 
   componentDidMount = () => {
+    this.loadPoints();
     this.loadMapTagList();
   };
 
@@ -79,7 +90,7 @@ export default class App extends Component {
 
     axios
       .get(API_URL + '/api/tags/list', {
-        headers: {Authorization: `hdOHFD743d^f#gdfasf$`},
+        headers: {Authorization: this.state.token},
       })
       .then(async response => {
         if (response.data) {
@@ -114,11 +125,38 @@ export default class App extends Component {
     this.setState({showMapTags: !this.state.showMapTags});
   };
 
+  loadPoints = () => {
+    let API_URL = this.state.API_URL;
+
+    axios
+      .get(API_URL + '/api/points/list', {
+        headers: {Authorization: this.state.token},
+      })
+      .then(async response => {
+        if (response.data) {
+          console.log(response.data);
+
+          this.setState({points: response.data});
+        }
+      })
+      .catch(async error => {
+        console.log(error);
+      });
+  };
+
   render() {
-    const {activeBottomItemName, mapTagList, showMapTags} = this.state;
+    const {
+      activeBottomItemName,
+      mapTagList,
+      showMapTags,
+      API_URL,
+      token,
+      points,
+    } = this.state;
     return (
       <GlobalContext.Provider
         value={{
+          API_URL: API_URL,
           renderPath: this.renderPath,
           setActiveBottomItemName: this.setActiveBottomItemName,
           activeBottomItemName: activeBottomItemName,
@@ -126,6 +164,8 @@ export default class App extends Component {
           showMapTags: showMapTags,
           setShowMapTags: this.setShowMapTags,
           setTagStatus: this.setTagStatus,
+          token: token,
+          points: points,
         }}>
         <SafeAreaView
           style={{

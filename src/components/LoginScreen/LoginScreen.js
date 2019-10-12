@@ -14,6 +14,7 @@ import {
   Right,
   Text,
 } from 'native-base';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const styles = {
   loginBtn: {
@@ -44,11 +45,15 @@ export default class HomeScreen extends Component {
     return (
       <Container>
         <Header>
-          <Left onClick={() => console.log('test')}>
-            <Button transparent>
-              <Icon name="arrow-back" />
-            </Button>
+          <Left>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.goBack(null)}>
+              <Button transparent>
+                <Icon name="arrow-back" />
+              </Button>
+            </TouchableOpacity>
           </Left>
+
           <Body>
             <Title>Logowanie</Title>
           </Body>

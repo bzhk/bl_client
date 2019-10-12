@@ -7,4 +7,7 @@ export const GlobalContext = React.createContext({
   activeBottomItemName: '',
   showMapTags: false,
   setShowMapTags: () => {},
+  API_URL: '',
+  token: '',
+  points: [],
 });
