@@ -17,6 +17,7 @@ import {
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {View} from 'react-native';
 import PanelBottom from './../PanelBottom/PanelBottom';
+import FilterMap from './utils/FilterMap/FilterMap';
 
 const mapStyle = [
   {
@@ -91,6 +92,7 @@ export default class MainMapScreen extends Component {
             longitudeDelta: 0.0421,
           }}
         />
+        <FilterMap />
         <PanelBottom navigation={this.props.navigation} />
       </Container>
     );

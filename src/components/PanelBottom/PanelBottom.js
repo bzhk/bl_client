@@ -12,6 +12,7 @@ const PanelBottom = ({navigation}) => {
           <Button
             vertical
             active
+            activeTabStyle={{backgroundColor: 'green'}}
             onPress={() => {
               context.setActiveBottomItemName('MainMapScreen');
               navigation.navigate('MainMapScreen');
@@ -36,6 +37,7 @@ const PanelBottom = ({navigation}) => {
           <Button
             vertical
             active
+            activeTabStyle={{backgroundColor: 'green'}}
             onPress={() => {
               context.setActiveBottomItemName('CouponScreen');
               navigation.navigate('CouponScreen');

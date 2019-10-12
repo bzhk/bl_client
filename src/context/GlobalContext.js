@@ -5,4 +5,6 @@ export const GlobalContext = React.createContext({
   renderPath: () => {},
   setActiveBottomItemName: () => {},
   activeBottomItemName: '',
+  showMapTags: false,
+  setShowMapTags: () => {},
 });
