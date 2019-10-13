@@ -14,6 +14,7 @@ const styles = {
     borderColor: '#2f313f',
     paddingTop: 5,
     paddingBottom: 5,
+    marginBottom: 10,
   },
   partnerLogo: {width: 70, height: 70, alignItems: 'center', marginLeft: 20},
   couponDesc: {color: '#2f313f', fontSize: 16, paddingBottom: 2},

@@ -69,8 +69,17 @@ export default class App extends Component {
       mapTagList: [],
       showMapTags: false,
       points: [],
+      loogedIn: false,
+      loogedInUserInfo: [],
+      latitude: 52.22977,
+      longitude: 21.01178,
     };
   }
+
+  setCoords = (lat, lng) => {
+    console.log(['setCoords', lat, lng]);
+    this.setState({latitude: lat, longitude: lng});
+  };
 
   renderPath = pathName => {
     NavigationService.navigate(pathName, {});
@@ -85,6 +94,17 @@ export default class App extends Component {
     this.loadMapTagList();
   };
 
+  loadMapTagsBasedOnActiveTags = () => {
+    const activeTagList = [];
+
+    this.state.mapTagList.map((mapTag, i) => {
+      if (mapTag.active) {
+        activeTagList += mapTag;
+        console.log(['mapTagList', activeTagList]);
+      }
+    });
+  };
+
   loadMapTagList = () => {
     let API_URL = this.state.API_URL;
 
@@ -94,6 +114,7 @@ export default class App extends Component {
       })
       .then(async response => {
         if (response.data) {
+          console.log(['tags', response.data]);
           const tagListResponse = response.data;
 
           const tagListResponseArr = tagListResponse.map((tag, i) => {
@@ -129,19 +150,89 @@ export default class App extends Component {
     let API_URL = this.state.API_URL;
 
     axios
-      .get(API_URL + '/api/points/list', {
-        headers: {Authorization: this.state.token},
-      })
+      .get(
+        API_URL +
+          `/api/points?tags=2,3,4,5,6,7,8&position=${this.state.latitude},${this.state.longitude}`,
+        {
+          headers: {Authorization: this.state.token},
+        },
+      )
       .then(async response => {
+        console.log(['response', response]);
         if (response.data) {
-          console.log(response.data);
-
           this.setState({points: response.data});
         }
       })
       .catch(async error => {
         console.log(error);
       });
+  };
+
+  loadPointByActiveTags = () => {
+    const activeTagsIds = [];
+    const API_URL = this.state.API_URL;
+
+    this.state.mapTagList.map(async (tag, i) => {
+      if (tag.active) {
+        await activeTagsIds.push(tag.id);
+        console.log(['tag.id', tag.id]);
+      }
+    });
+
+    let activeTagIdsJoin = activeTagsIds.join();
+
+    console.log(['activeTagsIds', activeTagIdsJoin]);
+
+    this.setState({points: []});
+
+    axios
+      .get(
+        API_URL +
+          `/api/points?tags=${activeTagIdsJoin}&position=${this.state.latitude},${this.state.longitude}`,
+        {
+          headers: {Authorization: this.state.token},
+        },
+      )
+      .then(async response => {
+        console.log(['response loadPointByActiveTags', response]);
+        if (response.data) {
+          this.setState({points: response.data});
+        }
+      })
+      .catch(async error => {
+        console.log(error);
+      });
+  };
+
+  //loginUser = (email, password) => {
+  loginUser = () => {
+    let API_URL = this.state.API_URL;
+
+    /*axios
+      .post(
+        API_URL + '/api/login',
+        {
+          email: email,
+          password: password,
+        },
+        {
+          headers: {Authorization: this.state.token},
+        },
+      )
+      .then(async response => {
+        if (response.data) {
+          console.log(['login', response]);
+
+          this.setState({loogedInUserInfo: response.data, loogedIn: true});
+
+          NavigationService.navigate('MainMapScreen', {});
+        }
+      })
+      .catch(async error => {
+        console.log(error);
+      });*/
+
+    NavigationService.navigate('MainMapScreen', {});
   };
 
   render() {
@@ -152,6 +243,8 @@ export default class App extends Component {
       API_URL,
       token,
       points,
+      loogedIn,
+      loogedInUserInfo,
     } = this.state;
     return (
       <GlobalContext.Provider
@@ -166,6 +259,13 @@ export default class App extends Component {
           setTagStatus: this.setTagStatus,
           token: token,
           points: points,
+          activeTagList: mapTagList,
+          loginUser: this.loginUser,
+          loogedIn: loogedIn,
+          loogedInUserInfo: loogedInUserInfo,
+          NavigationService: NavigationService,
+          loadPointByActiveTags: this.loadPointByActiveTags,
+          setCoords: this.setCoords,
         }}>
         <SafeAreaView
           style={{
@@ -173,7 +273,11 @@ export default class App extends Component {
             backgroundColor: '#fff',
           }}>
           <Container>
-            <AppContainer />
+            <AppContainer
+              ref={navigatorRef => {
+                NavigationService.setTopLevelNavigator(navigatorRef);
+              }}
+            />
           </Container>
         </SafeAreaView>
       </GlobalContext.Provider>

@@ -27,7 +27,7 @@ const styles = {
   loginBtn: {
     backgroundColor: '#5dcb74',
     borderColor: '#fff',
-    borderWidth: 1,
+    borderWidth: 2,
     marginLeft: 10,
     marginRight: 10,
     paddingLeft: 10,
@@ -37,6 +37,7 @@ const styles = {
     backgroundColor: '#fff',
     color: '#5dcb74',
     borderColor: '#5dcb74',
+    borderWidth: 2,
     marginLeft: 10,
     marginRight: 10,
     paddingLeft: 10,
@@ -59,7 +60,7 @@ export default class HomeScreen extends Component {
             width: '100%',
           }}
           padder>
-          <Text style={styles.mainText}>Eco Waw</Text>
+          <Text style={styles.mainText}>EcoWaw</Text>
           <Text style={styles.subText}>Czysta Warszawa</Text>
           <Text style={styles.subText}>Lepsza Warszawa</Text>
           <View style={{flexDirection: 'row', width: '100%', marginTop: 80}}>

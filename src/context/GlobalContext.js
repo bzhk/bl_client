@@ -2,12 +2,16 @@ import React from 'react';
 
 export const GlobalContext = React.createContext({
   loogedIn: false,
+  loogedInUserInfo: [],
+  loginUser: () => {},
   renderPath: () => {},
   setActiveBottomItemName: () => {},
   activeBottomItemName: '',
   showMapTags: false,
   setShowMapTags: () => {},
   API_URL: '',
-  token: '',
   points: [],
+  activeTagList: [],
+  loadPointByActiveTags: () => {},
+  setCoords: () => {},
 });

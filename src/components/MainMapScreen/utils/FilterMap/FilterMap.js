@@ -54,7 +54,10 @@ const FilterMap = () => {
                     borderWidth: 2,
                     borderColor: '#2f313f',
                   }}
-                  onPress={() => context.setTagStatus(tag.id)}>
+                  onPress={() => {
+                    context.setTagStatus(tag.id);
+                    context.loadPointByActiveTags();
+                  }}>
                   <Text style={{textAlign: 'center'}}>{tag.name}</Text>
                 </TouchableOpacity>
               );
@@ -72,7 +75,10 @@ const FilterMap = () => {
                     borderWidth: 2,
                     borderColor: '#5dcb74',
                   }}
-                  onPress={() => context.setTagStatus(tag.id)}>
+                  onPress={() => {
+                    context.setTagStatus(tag.id);
+                    context.loadPointByActiveTags();
+                  }}>
                   <Text style={{textAlign: 'center', color: '#5dcb74'}}>
                     {tag.name}
                   </Text>

@@ -15,6 +15,7 @@ import {
   Text,
 } from 'native-base';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {GlobalContext} from './../../context/GlobalContext';
 
 const styles = {
   loginBtn: {
@@ -36,10 +37,32 @@ const styles = {
   },
 };
 
-export default class HomeScreen extends Component {
+class LoginScreen extends Component {
   constructor(props) {
     super(props);
+
+    state = {
+      email: '',
+      password: '',
+    };
   }
+
+  onChange(field, value) {
+    console.log([field, value]);
+
+    this.setState({[field]: value});
+  }
+
+  loginUser = () => {
+    /*let email = this.state.email ? this.state.email : '';
+    let password = this.state.password ? this.state.password : '';
+
+    if (email && password) {
+      this.context.loginUser(email, password);
+    }*/
+
+    this.context.loginUser();
+  };
 
   render() {
     return (
@@ -62,10 +85,16 @@ export default class HomeScreen extends Component {
         <Content>
           <Form style={styles.formContainer}>
             <Item floatingLabel last>
-              <Input placeholder="Username" />
+              <Input
+                placeholder="Email"
+                onChangeText={e => this.onChange('email', e)}
+              />
             </Item>
             <Item floatingLabel last>
-              <Input placeholder="Password" />
+              <Input
+                placeholder="Hasło"
+                onChangeText={e => this.onChange('password', e)}
+              />
             </Item>
           </Form>
 
@@ -73,7 +102,7 @@ export default class HomeScreen extends Component {
             rounded
             center
             style={styles.loginBtn}
-            onPress={() => this.props.navigation.navigate('MainMapScreen')}>
+            onPress={() => this.loginUser()}>
             <Text>Logowanie</Text>
           </Button>
         </Content>
@@ -81,3 +110,6 @@ export default class HomeScreen extends Component {
     );
   }
 }
+
+LoginScreen.contextType = GlobalContext;
+export default LoginScreen;

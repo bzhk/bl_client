@@ -6,13 +6,12 @@ const PanelBottom = ({navigation}) => {
   const context = useContext(GlobalContext);
   return (
     <Footer>
-      <FooterTab>
+      <FooterTab tabActiveBgColor="#333">
         {context.activeBottomItemName &&
         context.activeBottomItemName === 'MainMapScreen' ? (
           <Button
             vertical
             active
-            activeTabStyle={{backgroundColor: 'green'}}
             onPress={() => {
               context.setActiveBottomItemName('MainMapScreen');
               navigation.navigate('MainMapScreen');
