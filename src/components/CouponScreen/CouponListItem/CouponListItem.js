@@ -3,6 +3,7 @@ import {GlobalContext} from './../../../context/GlobalContext';
 import websiteImage from './../images/internet.png';
 import star from './../images/star.png';
 import {View, Image, Text, TouchableHighlight, Linking} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const styles = {
   mainContainer: {
@@ -34,12 +35,10 @@ const styles = {
 const CouponListItem = props => {
   const context = useContext(GlobalContext);
   return (
-    <View
+    <TouchableOpacity
       style={styles.mainContainer}
       onPress={() => {
-        props.navigation.navigate('CouponDetails', {
-          couponId: props.coupon.id,
-        });
+        props.setCouponDetailsData(props.coupon.id);
       }}>
       <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
         <Image
@@ -48,15 +47,7 @@ const CouponListItem = props => {
         />
         <View style={{flexDirection: 'row', flexWrap: 'wrap', marginLeft: 20}}>
           <View>
-            <Text
-              style={styles.couponDesc}
-              onPress={() => {
-                props.navigation.navigate('CouponDetails', {
-                  couponId: props.coupon.id,
-                });
-              }}>
-              {props.coupon.description}
-            </Text>
+            <Text style={styles.couponDesc}>{props.coupon.name}</Text>
             <Text style={styles.couponExp}>
               Wygasa: {props.coupon.expiry_date}
             </Text>
@@ -78,10 +69,10 @@ const CouponListItem = props => {
             Linking.openURL(props.coupon.offert_url);
           }}
           underlayColor={'#fff'}>
-          <Image source={websiteImage} />
+          <Image style={{width: 25, height: 25}} source={websiteImage} />
         </TouchableHighlight>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

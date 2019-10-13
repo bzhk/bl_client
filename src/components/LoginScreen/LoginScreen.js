@@ -48,20 +48,16 @@ class LoginScreen extends Component {
   }
 
   onChange(field, value) {
-    console.log([field, value]);
-
     this.setState({[field]: value});
   }
 
   loginUser = () => {
-    /*let email = this.state.email ? this.state.email : '';
-    let password = this.state.password ? this.state.password : '';
+    let email = this.state.email;
+    let password = this.state.password;
 
     if (email && password) {
       this.context.loginUser(email, password);
-    }*/
-
-    this.context.loginUser();
+    }
   };
 
   render() {

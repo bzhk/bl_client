@@ -16,6 +16,7 @@ import PanelBottom from './../PanelBottom/PanelBottom';
 import axios from 'axios';
 import {GlobalContext} from './../../context/GlobalContext';
 import CouponListItem from './CouponListItem/CouponListItem';
+import CouponDetails from './CouponDetails/CouponDetails';
 
 const styles = {};
 
@@ -25,8 +26,44 @@ class CouponScreen extends Component {
 
     this.state = {
       couponList: [],
+      showCouponDetails: false,
+      activeCouponDetailsData: [],
     };
   }
+
+  setShowCouponDetails = () => {
+    this.setState({showCouponDetails: !this.state.showCouponDetails});
+  };
+
+  setCouponDetailsData = id => {
+    console.log([
+      'this.context.loogedInUserInfo.token',
+      this.context.loogedInUserInfo.token,
+      this.context.API_URL,
+      id,
+    ]);
+    let API_URL = this.context.API_URL;
+
+    axios
+      .get(API_URL + `/api/coupons/${id}`, {
+        headers: {
+          Authorization: this.context.token,
+          AuthUser: this.context.loogedInUserInfo.token,
+        },
+      })
+      .then(async response => {
+        if (response.data) {
+          console.log(['setCouponDetailsData', response]);
+
+          this.setState({activeCouponDetailsData: response.data});
+
+          this.setShowCouponDetails();
+        }
+      })
+      .catch(async error => {
+        console.log(error);
+      });
+  };
 
   loadCouponList = () => {
     axios
@@ -35,16 +72,7 @@ class CouponScreen extends Component {
       })
       .then(async response => {
         if (response.data) {
-          /*const tagListResponse = response.data;
-
-          const tagListResponseArr = tagListResponse.map((tag, i) => {
-            tag.active = true;
-            return tag;
-          });
-
-          this.setState({mapTagList: tagListResponseArr});*/
-
-          console.log(['response.data', response.data]);
+          console.log(['loadCouponList', response.data]);
 
           this.setState({couponList: response.data});
         }
@@ -63,19 +91,21 @@ class CouponScreen extends Component {
   };
 
   render() {
-    const {couponList, pageTitle} = this.state;
+    const {
+      couponList,
+      pageTitle,
+      showCouponDetails,
+      activeCouponDetailsData,
+    } = this.state;
     return (
       <Container>
         <Header>
           <Left>
-            <TouchableOpacity
-              onPress={() => {
-                this.props.navigation.navigate('MainMapScreen');
-              }}>
-              <Button transparent>
+            {showCouponDetails && (
+              <Button transparent onPress={() => this.setShowCouponDetails()}>
                 <Icon name="arrow-back" />
               </Button>
-            </TouchableOpacity>
+            )}
           </Left>
 
           <Body>
@@ -86,10 +116,24 @@ class CouponScreen extends Component {
         <Content>
           <View style={{margin: 10}}>
             {couponList &&
+              !showCouponDetails &&
               couponList.length > 0 &&
               couponList.map((coupon, i) => {
-                return <CouponListItem key={`coupon-${i}`} coupon={coupon} />;
+                return (
+                  <CouponListItem
+                    key={`coupon-${i}`}
+                    coupon={coupon}
+                    setCouponDetailsData={this.setCouponDetailsData}
+                  />
+                );
               })}
+
+            {showCouponDetails && (
+              <CouponDetails
+                coupon={activeCouponDetailsData}
+                API_URL={this.context.API_URL}
+              />
+            )}
           </View>
         </Content>
 

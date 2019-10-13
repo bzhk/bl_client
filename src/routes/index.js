@@ -5,6 +5,7 @@ import Welcome from './../components/HomeScreen/HomeScreen';
 import LoginScreen from './../components/LoginScreen/LoginScreen';
 import MainMapScreen from './../components/MainMapScreen/MainMapScreen';
 import CouponScreen from './../components/CouponScreen/CouponScreen';
+import ProfileScreen from './../components/ProfileScreen/ProfileScreen';
 import CouponDetailsScreen from './../components/CouponDetailsScreen/CouponDetailsScreen';
 import {fadeIn} from 'react-navigation-transitions';
 import {GlobalContext} from './../context/GlobalContext';
@@ -44,6 +45,13 @@ const MainStack = createStackNavigator(
     },
     CouponDetailsScreen: {
       screen: CouponScreen,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
+    },
+    ProfileScreen: {
+      screen: ProfileScreen,
       navigationOptions: {
         header: null,
         gesturesEnabled: false,
@@ -204,11 +212,10 @@ export default class App extends Component {
       });
   };
 
-  //loginUser = (email, password) => {
-  loginUser = () => {
+  loginUser = (email, password) => {
     let API_URL = this.state.API_URL;
 
-    /*axios
+    axios
       .post(
         API_URL + '/api/login',
         {
@@ -230,7 +237,7 @@ export default class App extends Component {
       })
       .catch(async error => {
         console.log(error);
-      });*/
+      });
 
     NavigationService.navigate('MainMapScreen', {});
   };

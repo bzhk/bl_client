@@ -55,6 +55,30 @@ const PanelBottom = ({navigation}) => {
             <Text>Kupony</Text>
           </Button>
         )}
+
+        {context.activeBottomItemName &&
+        context.activeBottomItemName === 'ProfileScreen' ? (
+          <Button
+            vertical
+            active
+            onPress={() => {
+              context.setActiveBottomItemName('ProfileScreen');
+              navigation.navigate('ProfileScreen');
+            }}>
+            <Icon active name="person" />
+            <Text>Profil</Text>
+          </Button>
+        ) : (
+          <Button
+            vertical
+            onPress={() => {
+              context.setActiveBottomItemName('ProfileScreen');
+              navigation.navigate('ProfileScreen');
+            }}>
+            <Icon name="person" />
+            <Text>Profil</Text>
+          </Button>
+        )}
       </FooterTab>
     </Footer>
   );
