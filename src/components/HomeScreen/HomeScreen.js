@@ -64,6 +64,8 @@ export default class HomeScreen extends Component {
   }
 
   render() {
+    console.disableYellowBox = true;
+
     return (
       <Container style={styles.mainContainer}>
         <Content contentContainerStyle={styles.contentContainer} padder>

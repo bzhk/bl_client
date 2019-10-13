@@ -15,7 +15,6 @@ const AlertMap = () => {
         borderColor: '#5dcb74',
         backgroundColor: '#5dcb74',
         width: '90%',
-
         height: 40,
       }}>
       <Text

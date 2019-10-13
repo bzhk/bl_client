@@ -79,6 +79,30 @@ const PanelBottom = ({navigation}) => {
             <Text>Profil</Text>
           </Button>
         )}
+
+        {context.activeBottomItemName &&
+        context.activeBottomItemName === 'ReportScreen' ? (
+          <Button
+            vertical
+            active
+            onPress={() => {
+              context.setActiveBottomItemName('ReportScreen');
+              navigation.navigate('ReportScreen');
+            }}>
+            <Icon active name="person" />
+            <Text>Zgłoś</Text>
+          </Button>
+        ) : (
+          <Button
+            vertical
+            onPress={() => {
+              context.setActiveBottomItemName('ReportScreen');
+              navigation.navigate('ReportScreen');
+            }}>
+            <Icon name="person" />
+            <Text>Zgłoś</Text>
+          </Button>
+        )}
       </FooterTab>
     </Footer>
   );

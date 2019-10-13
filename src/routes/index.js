@@ -6,6 +6,7 @@ import LoginScreen from './../components/LoginScreen/LoginScreen';
 import MainMapScreen from './../components/MainMapScreen/MainMapScreen';
 import CouponScreen from './../components/CouponScreen/CouponScreen';
 import ProfileScreen from './../components/ProfileScreen/ProfileScreen';
+import ReportScreen from './../components/ReportScreen/ReportScreen';
 import {fadeIn} from 'react-navigation-transitions';
 import {GlobalContext} from './../context/GlobalContext';
 import {Container} from 'native-base';
@@ -51,6 +52,13 @@ const MainStack = createStackNavigator(
     },
     ProfileScreen: {
       screen: ProfileScreen,
+      navigationOptions: {
+        header: null,
+        gesturesEnabled: false,
+      },
+    },
+    ReportScreen: {
+      screen: ReportScreen,
       navigationOptions: {
         header: null,
         gesturesEnabled: false,

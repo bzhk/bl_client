@@ -61,6 +61,8 @@ class LoginScreen extends Component {
   };
 
   render() {
+    console.disableYellowBox = true;
+
     return (
       <Container>
         <Header>
@@ -84,12 +86,14 @@ class LoginScreen extends Component {
               <Input
                 placeholder="Email"
                 onChangeText={e => this.onChange('email', e)}
+                autoCapitalize="none"
               />
             </Item>
             <Item floatingLabel last>
               <Input
                 placeholder="Hasło"
                 onChangeText={e => this.onChange('password', e)}
+                autoCapitalize="none"
               />
             </Item>
           </Form>
