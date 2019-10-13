@@ -6,7 +6,6 @@ import LoginScreen from './../components/LoginScreen/LoginScreen';
 import MainMapScreen from './../components/MainMapScreen/MainMapScreen';
 import CouponScreen from './../components/CouponScreen/CouponScreen';
 import ProfileScreen from './../components/ProfileScreen/ProfileScreen';
-import CouponDetailsScreen from './../components/CouponDetailsScreen/CouponDetailsScreen';
 import {fadeIn} from 'react-navigation-transitions';
 import {GlobalContext} from './../context/GlobalContext';
 import {Container} from 'native-base';
@@ -108,7 +107,7 @@ export default class App extends Component {
     this.state.mapTagList.map((mapTag, i) => {
       if (mapTag.active) {
         activeTagList += mapTag;
-        console.log(['mapTagList', activeTagList]);
+        //console.log(['mapTagList', activeTagList]);
       }
     });
   };
@@ -183,13 +182,13 @@ export default class App extends Component {
     this.state.mapTagList.map(async (tag, i) => {
       if (tag.active) {
         await activeTagsIds.push(tag.id);
-        console.log(['tag.id', tag.id]);
+        //console.log(['tag.id', tag.id]);
       }
     });
 
     let activeTagIdsJoin = activeTagsIds.join();
 
-    console.log(['activeTagsIds', activeTagIdsJoin]);
+    //console.log(['activeTagsIds', activeTagIdsJoin]);
 
     this.setState({points: []});
 
@@ -210,6 +209,16 @@ export default class App extends Component {
       .catch(async error => {
         console.log(error);
       });
+  };
+
+  updateUserPoints = pointAmount => {
+    let newLoogedInUserInfo = this.state.loogedInUserInfo;
+
+    //console.log(['pointAmount', pointAmount, newLoogedInUserInfo]);
+
+    newLoogedInUserInfo.points = newLoogedInUserInfo.points - pointAmount;
+
+    this.setState({loogedInUserInfo: newLoogedInUserInfo});
   };
 
   loginUser = (email, password) => {
@@ -240,6 +249,34 @@ export default class App extends Component {
       });
 
     NavigationService.navigate('MainMapScreen', {});
+  };
+
+  logoutUser = () => {
+    this.setState({loogedInUserInfo: false, loogedIn: false});
+
+    NavigationService.navigate('Welcome', {});
+  };
+
+  getUserInfo = () => {
+    let API_URL = this.state.API_URL;
+
+    axios
+      .get(API_URL + '/api/me', {
+        headers: {
+          Authorization: this.state.token,
+          AuthUser: this.state.loogedInUserInfo.token,
+        },
+      })
+      .then(async response => {
+        if (response.data) {
+          console.log(['getUserInfo', response.data]);
+
+          this.setState({loogedInUserInfo: response.data});
+        }
+      })
+      .catch(async error => {
+        console.log(error);
+      });
   };
 
   render() {
@@ -273,6 +310,9 @@ export default class App extends Component {
           NavigationService: NavigationService,
           loadPointByActiveTags: this.loadPointByActiveTags,
           setCoords: this.setCoords,
+          logoutUser: this.logoutUser,
+          //updateUserPoints: this.updateUserPoints,
+          getUserInfo: this.getUserInfo,
         }}>
         <SafeAreaView
           style={{

@@ -15,4 +15,7 @@ export const GlobalContext = React.createContext({
   loadPointByActiveTags: () => {},
   setCoords: () => {},
   token: '',
+  logoutUser: () => {},
+  updateUserPoints: () => {},
+  getUserInfo: () => {},
 });

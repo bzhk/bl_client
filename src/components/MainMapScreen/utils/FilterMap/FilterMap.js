@@ -43,6 +43,7 @@ const FilterMap = () => {
             if (!tag.active) {
               return (
                 <TouchableOpacity
+                  key={`tag-${i}`}
                   style={{
                     backgroundColor: '#fff',
                     borderRadius: 200,
@@ -64,6 +65,7 @@ const FilterMap = () => {
             } else {
               return (
                 <TouchableOpacity
+                  key={`tag-${i}`}
                   style={{
                     backgroundColor: '#fff',
                     borderRadius: 200,

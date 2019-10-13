@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Container, Content, Text, Button} from 'native-base';
-import {View} from 'react-native';
+import {View, Image} from 'react-native';
+import recyclingIcon from './images/recycling.png';
 
 const styles = {
   alignContent: {
@@ -17,7 +18,7 @@ const styles = {
     fontWeight: 'bold',
     textAlign: 'center',
     fontSize: 46,
-    marginBottom: 20,
+    marginBottom: 60,
   },
   subText: {
     color: '#fff',
@@ -43,6 +44,18 @@ const styles = {
     paddingLeft: 10,
     paddingRight: 10,
   },
+  imageContainer: {justifyContent: 'center', alignItems: 'center'},
+  imageContent: {
+    width: 70,
+    height: 70,
+    margin: 20,
+  },
+  btnsContainer: {flexDirection: 'row', width: '100%', marginTop: 80},
+  contentContainer: {
+    justifyContent: 'center',
+    flex: 1,
+    width: '100%',
+  },
 };
 
 export default class HomeScreen extends Component {
@@ -53,17 +66,14 @@ export default class HomeScreen extends Component {
   render() {
     return (
       <Container style={styles.mainContainer}>
-        <Content
-          contentContainerStyle={{
-            justifyContent: 'center',
-            flex: 1,
-            width: '100%',
-          }}
-          padder>
+        <Content contentContainerStyle={styles.contentContainer} padder>
           <Text style={styles.mainText}>EcoWaw</Text>
           <Text style={styles.subText}>Czysta Warszawa</Text>
+          <View style={styles.imageContainer}>
+            <Image source={recyclingIcon} style={styles.imageContent} />
+          </View>
           <Text style={styles.subText}>Lepsza Warszawa</Text>
-          <View style={{flexDirection: 'row', width: '100%', marginTop: 80}}>
+          <View style={styles.btnsContainer}>
             <Button
               rounded
               style={styles.loginBtn}

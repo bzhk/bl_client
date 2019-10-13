@@ -1,187 +1,14 @@
 import React, {Component} from 'react';
-import {
-  Container,
-  Form,
-  Header,
-  Input,
-  Content,
-  Item,
-  Button,
-  Left,
-  Icon,
-  Body,
-  Title,
-  Right,
-  Text,
-} from 'native-base';
+import {Container} from 'native-base';
 import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
-import {Image, View} from 'react-native';
+import {Image} from 'react-native';
 import PanelBottom from './../PanelBottom/PanelBottom';
 import FilterMap from './utils/FilterMap/FilterMap';
+import AlertMap from './utils/AlertMap/AlertMap';
 import {GlobalContext} from './../../context/GlobalContext';
 import markerImage from './images/marker.png';
+import truck from './images/truck.png';
 import PointModal from './utils/PointModal/PointModal';
-
-const mapStyle = [
-  {
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#f5f5f5',
-      },
-    ],
-  },
-  {
-    elementType: 'labels.icon',
-    stylers: [
-      {
-        visibility: 'off',
-      },
-    ],
-  },
-  {
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#616161',
-      },
-    ],
-  },
-  {
-    elementType: 'labels.text.stroke',
-    stylers: [
-      {
-        color: '#f5f5f5',
-      },
-    ],
-  },
-  {
-    featureType: 'administrative.land_parcel',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#bdbdbd',
-      },
-    ],
-  },
-  {
-    featureType: 'poi',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#eeeeee',
-      },
-    ],
-  },
-  {
-    featureType: 'poi',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#757575',
-      },
-    ],
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#e5e5e5',
-      },
-    ],
-  },
-  {
-    featureType: 'poi.park',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#9e9e9e',
-      },
-    ],
-  },
-  {
-    featureType: 'road',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#ffffff',
-      },
-    ],
-  },
-  {
-    featureType: 'road.arterial',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#757575',
-      },
-    ],
-  },
-  {
-    featureType: 'road.highway',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#dadada',
-      },
-    ],
-  },
-  {
-    featureType: 'road.highway',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#616161',
-      },
-    ],
-  },
-  {
-    featureType: 'road.local',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#9e9e9e',
-      },
-    ],
-  },
-  {
-    featureType: 'transit.line',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#e5e5e5',
-      },
-    ],
-  },
-  {
-    featureType: 'transit.station',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#eeeeee',
-      },
-    ],
-  },
-  {
-    featureType: 'water',
-    elementType: 'geometry',
-    stylers: [
-      {
-        color: '#c9c9c9',
-      },
-    ],
-  },
-  {
-    featureType: 'water',
-    elementType: 'labels.text.fill',
-    stylers: [
-      {
-        color: '#9e9e9e',
-      },
-    ],
-  },
-];
 
 const styles = {
   container: {
@@ -218,12 +45,12 @@ class MainMapScreen extends Component {
   };
 
   setActiveShowPointModalId = async id => {
-    console.log(['setActiveShowPointModalId', id, this.state.showPointModal]);
+    //console.log(['setActiveShowPointModalId', id, this.state.showPointModal]);
     const activePointDataFromContext = this.context.points.filter(
       point => point.id === id,
     );
 
-    console.log(['activePointDataFromContext', activePointDataFromContext]);
+    //console.log(['activePointDataFromContext', activePointDataFromContext]);
     this.setState({
       activeshowPointModalId: id,
       activePointData: activePointDataFromContext,
@@ -247,10 +74,16 @@ class MainMapScreen extends Component {
           }}
           zoomEnabled={true}
           onRegionChangeComplete={async e => {
-            console.log([e.latitude, e.longitude]);
+            //console.log([e.latitude, e.longitude]);
             this.context.setCoords(e.latitude, e.longitude);
             this.context.loadPointByActiveTags();
           }}>
+          <Marker
+            coordinate={{latitude: 52.22977, longitude: 21.01178}}
+            //onPress={() => this.setActiveShowPointModalId(point.id)}
+          >
+            <Image source={truck} style={{width: 40, resizeMode: 'contain'}} />
+          </Marker>
           {this.context &&
             this.context.points &&
             this.context.points.length > 0 &&
@@ -272,6 +105,8 @@ class MainMapScreen extends Component {
             setShowPointModal={this.setShowPointModal}
           />
         )}
+
+        <AlertMap />
 
         <FilterMap />
 

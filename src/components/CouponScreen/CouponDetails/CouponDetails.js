@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  View,
-  Image,
-  TouchableHighlight,
-  Linking,
-  Dimensions,
-} from 'react-native';
+import {View, Image} from 'react-native';
 import {Button, Text} from 'native-base';
-const win = Dimensions.get('window');
 
 const styles = {
   loginBtn: {
@@ -52,7 +45,7 @@ const CouponListItem = props => {
             justifyContent: 'center',
             //alignItems: 'center',
           }}>
-          <Text style={{fontSize: 18, fontWeight: 'bold'}}>
+          <Text style={{fontSize: 18, fontWeight: 'bold', color: '#5dcb74'}}>
             {props.coupon.item.partner.name}
           </Text>
           <Text style={{fontSize: 14}}>{props.coupon.item.description}</Text>
@@ -73,11 +66,24 @@ const CouponListItem = props => {
         <Text style={{marginBottom: 10}}>{props.coupon.item.partner.desc}</Text>
       </View>
       {props.coupon.value.values && props.coupon.value.values.length > 0 ? (
-        <Button rounded center style={styles.loginBtn}>
+        <Button
+          onPress={() => props.setShowQrCode()}
+          rounded
+          center
+          style={styles.loginBtn}>
           <Text>Pokaż kod</Text>
         </Button>
       ) : (
-        <Button rounded center style={styles.loginBtn}>
+        <Button
+          onPress={() =>
+            props.unlockCoupon(
+              props.coupon.item.id,
+              props.coupon.item.points_cost,
+            )
+          }
+          rounded
+          center
+          style={styles.loginBtn}>
           <Text>Odkryj kod za {props.coupon.item.points_cost} punktów</Text>
         </Button>
       )}

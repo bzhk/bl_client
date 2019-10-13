@@ -18,7 +18,12 @@ const styles = {
     marginBottom: 10,
   },
   partnerLogo: {width: 70, height: 70, alignItems: 'center', marginLeft: 20},
-  couponDesc: {color: '#2f313f', fontSize: 16, paddingBottom: 2},
+  couponDesc: {
+    color: '#5dcb74',
+    fontWeight: 'bold',
+    fontSize: 16,
+    paddingBottom: 2,
+  },
   couponExp: {color: '#2f313f', fontSize: 12, paddingBottom: 5},
   starContainer: {
     flexDirection: 'row',
@@ -38,7 +43,7 @@ const CouponListItem = props => {
     <TouchableOpacity
       style={styles.mainContainer}
       onPress={() => {
-        props.setCouponDetailsData(props.coupon.id);
+        props.setCouponDetailsData(props.coupon.id, true);
       }}>
       <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
         <Image
